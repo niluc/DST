@@ -1,3 +1,3 @@
 # DST
  
-Emvironment setup: https://reactnative.dev/docs/environment-setup
+Environment setup: https://reactnative.dev/docs/environment-setup

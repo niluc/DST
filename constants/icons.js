@@ -1,3 +1,3 @@
-import wallet from '../assets/icon/wallet.js';
+import wallet from '../assets/icons/wallet.js';
 
 export default {wallet};

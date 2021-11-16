@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, FlatList} from 'react-native';
 
-import {icons, COLORS, SIZES, FONTS} from '../constants';
+import {icons, COLORS, SIZES, FONTS} from '../../constants';
 
 export default function BigList(props) {
   const [data, setData] = useState(props.data);

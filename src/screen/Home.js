@@ -1,11 +1,18 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import {StyleSheet, SafeAreaView, Text, TouchableOpacity, View, Button } from "react-native";
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
     <SafeAreaView style={styles.safe}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Overview</Text>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Button
+          title="Saving"
+          onPress={() => {navigation.navigate('Saving')}}
+        />
+        <Button
+          title="Entries"
+          onPress={() => navigation.navigate('Entries')}
+        />
       </View>
     </SafeAreaView>
   );
@@ -17,16 +24,5 @@ export const styles=StyleSheet.create({
     safe: {
     flexDirection: 'row',
     justifyContent: 'center',
-  },
-  headerContainer: {
-    flex: 1,
-    top: 64,
-    alignItems: "center",
-    paddingHorizontal: 10
-  },
-  headerText: {
-      fontSize: 25,
-      fontWeight: "600",
-      color: '#000000'
   },
 });

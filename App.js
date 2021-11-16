@@ -1,112 +1,163 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {Chart} from './tk/chart';
+import {COLORS} from './tk/chart/theme';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const App = () => {
+  let categoriesData = [
+    {
+      id: 1,
+      name: 'Education',
+      color: COLORS.yellow,
+      expenses: [
+        {
+          id: 1,
+          title: 'Tuition Fee',
+          description: 'Tuition fee',
+          total: 100.0,
+        },
+        {
+          id: 2,
+          title: 'Arduino',
+          description: 'Hardward',
+          total: 30.0,
+        },
+        {
+          id: 3,
+          title: 'Javascript Books',
+          description: 'Javascript books',
+          total: 20.0,
+        },
+        {
+          id: 4,
+          title: 'PHP Books',
+          description: 'PHP books',
+          total: 20.0,
+        },
+      ],
+    },
+    {
+      id: 2,
+      name: 'Nutrition',
+      color: COLORS.lightBlue,
+      expenses: [
+        {
+          id: 5,
+          title: 'Vitamins',
+          description: 'Vitamin',
+          total: 25.0,
+        },
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
+        {
+          id: 6,
+          title: 'Protein powder',
+          description: 'Protein',
+          total: 50.0,
+        },
+      ],
+    },
+    {
+      id: 3,
+      name: 'Child',
+      color: COLORS.darkgreen,
+      expenses: [
+        {
+          id: 7,
+          title: 'Toys',
+          description: 'toys',
+          total: 25.0,
+        },
+        {
+          id: 8,
+          title: 'Baby Car Seat',
+          description: 'Baby Car Seat',
+          total: 100.0,
+        },
+        {
+          id: 9,
+          title: 'Pampers',
+          description: 'Pampers',
+          total: 100.0,
+        },
+        {
+          id: 10,
+          title: 'Baby T-Shirt',
+          description: 'T-Shirt',
+          total: 20.0,
+        },
+      ],
+    },
+    {
+      id: 4,
+      name: 'Beauty & Care',
+      color: COLORS.peach,
+      expenses: [
+        {
+          id: 11,
+          title: 'Skin Care product',
+          description: 'skin care',
+          total: 10.0,
+        },
+        {
+          id: 12,
+          title: 'Lotion',
+          description: 'Lotion',
+          total: 50.0,
+        },
+        {
+          id: 13,
+          title: 'Face Mask',
+          description: 'Face Mask',
+          total: 50.0,
+        },
+        {
+          id: 14,
+          title: 'Sunscreen cream',
+          description: 'Sunscreen cream',
+          total: 50.0,
+        },
+      ],
+    },
+    {
+      id: 5,
+      name: 'Sports',
+      color: COLORS.purple,
+      expenses: [
+        {
+          id: 15,
+          title: 'Gym Membership',
+          description: 'Monthly Fee',
+          total: 45.0,
+        },
+        {
+          id: 16,
+          title: 'Gloves',
+          description: 'Gym Equipment',
+          total: 15.0,
+        },
+      ],
+    },
+    {
+      id: 6,
+      name: 'Clothing',
+      color: COLORS.red,
+      expenses: [
+        {
+          id: 17,
+          title: 'T-Shirt',
+          description: 'Plain Color T-Shirt',
+          total: 20.0,
+        },
+        {
+          id: 18,
+          title: 'Jeans',
+          description: 'Blue Jeans',
+          total: 50.0,
+        },
+      ],
+    },
+  ];
+  const [categories, setCategories] = React.useState(categoriesData);
+  return <Chart data={categories} />;
 };
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;

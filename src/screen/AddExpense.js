@@ -1,14 +1,16 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import {StyleSheet,Pressable, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 
-const TotalExpense = () => {
+
+const AddExpense = () => {
   return (
     <SafeAreaView style={styles.safe}>
+    
     </SafeAreaView>
   );
 };
 
-export default TotalExpense;
+export default AddExpense;
 
 export const styles=StyleSheet.create({
     safe: {

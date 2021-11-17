@@ -8,6 +8,7 @@ import {
   Button,
 } from 'react-native';
 import BigList from '../BigList';
+import Entries from '../Entries';
 import SmallList from '../SmallList';
 
 const Home = ({navigation}) => {
@@ -28,17 +29,36 @@ const Home = ({navigation}) => {
       value: 300,
     },
   ];
+  let entryList = [
+    {
+      id: 1,
+      type: 'Food',
+      date: '10/08/2021',
+      value: -500,
+      payment: 'Cash',
+    },
+    {
+      id: 2,
+      type: 'Food',
+      date: '1/08/2021',
+      value: -300,
+      payment: 'Cash',
+    },
+    {
+      id: 3,
+      type: 'Food',
+      date: '28/07/2021',
+      value: -100,
+      payment: 'Cash',
+    },
+  ];
   const [bigList, setBigList] = React.useState(biglist);
+  const [entries, setEntries] = React.useState(entryList);
   return (
     <SafeAreaView style={styles.safe}>
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        {/*<BigList data={bigList} />*/}
-        <SmallList navigation={navigation} />
-        <Button
-          title="Entries"
-          onPress={() => navigation.navigate('Entries')}
-        />
-      </View>
+      <BigList data={bigList} />
+      <SmallList navigation={navigation} />
+      <Entries data={entries} navigation={navigation} />
     </SafeAreaView>
   );
 };
@@ -47,7 +67,11 @@ export default Home;
 
 export const styles = StyleSheet.create({
   safe: {
-    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'stretch',
+    backgroundColor: 'white',
   },
 });

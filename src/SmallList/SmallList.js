@@ -94,7 +94,7 @@ export default function BigList(props) {
           style={{
             alignItems: 'center',
             justifyContent: 'center',
-            height: 200,
+            height: 130,
           }}>
           <Text style={{color: COLORS.primary, ...FONTS.h3}}>No Record</Text>
         </View>

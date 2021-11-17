@@ -10,15 +10,18 @@ import {
 
 import {icons, COLORS, SIZES, FONTS} from '../constants';
 
-export default function Entries(props) {
+export default function Reminder(props) {
   const [data, setData] = useState(props.data);
 
   const renderItem = ({item, index}) => (
     <View
       style={{
-        paddingHorizontal: 15,
-        paddingVertical: 5,
+        padding: 15,
         flexDirection: 'row',
+        borderRadius: 10,
+        backgroundColor: 'white',
+        marginVertical: 5,
+        ...styles.shadow,
       }}>
       {/* Title */}
       <View
@@ -27,7 +30,7 @@ export default function Entries(props) {
         }}>
         <Text
           style={{
-            ...FONTS.h2,
+            ...FONTS.h3,
             fontWeight: '700',
             color: COLORS.black,
           }}>
@@ -39,7 +42,7 @@ export default function Entries(props) {
             ...FONTS.body3,
             fontWeight: '900',
           }}>
-          {item.date}
+          {item.value.toFixed(2)}$
         </Text>
       </View>
       <View style={{flex: 1}}></View>
@@ -51,57 +54,20 @@ export default function Entries(props) {
         }}>
         <Text
           style={{
-            color: COLORS.black,
-            ...FONTS.body3,
-            fontWeight: '700',
-            textAlign: 'right',
-          }}>
-          {item.value.toFixed(2)}$
-        </Text>
-        <Text
-          style={{
             color: COLORS.gray,
             ...FONTS.body3,
             fontWeight: '900',
             textAlign: 'right',
           }}>
-          {item.payment}
+          Due on {'\n'}
+          {item.date}
         </Text>
       </View>
     </View>
   );
 
   return (
-    <View style={{height: 400, flex: 1, margin: 25}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <Text style={{...FONTS.h1, color: 'black', fontWeight: '700'}}>
-          Latest Entries
-        </Text>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate('Entries')}
-          style={{
-            width: 45,
-            height: 45,
-            backgroundColor: COLORS.primary,
-            borderRadius: 8,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Image
-            source={icons.three_dot}
-            style={{
-              width: 25,
-              height: 8,
-              tintColor: COLORS.secondary,
-            }}
-          />
-        </TouchableOpacity>
-      </View>
+    <View style={{}}>
       {data.length > 0 && (
         <FlatList
           data={data}
@@ -111,16 +77,27 @@ export default function Entries(props) {
         />
       )}
 
-      {data.length == 0 && (
-        <View
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate('SetReminder')}
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: 10,
+          height: 65,
+          borderRadius: 10,
+          borderStyle: 'dotted',
+          borderColor: 'gray',
+          borderWidth: 1,
+        }}>
+        <Image
+          source={icons.plus}
           style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 200,
-          }}>
-          <Text style={{color: COLORS.primary, ...FONTS.h3}}>No Record</Text>
-        </View>
-      )}
+            width: 30,
+            height: 30,
+            tintColor: COLORS.black,
+          }}
+        />
+      </TouchableOpacity>
     </View>
   );
 }

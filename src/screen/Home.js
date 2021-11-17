@@ -52,8 +52,8 @@ const Home = ({navigation}) => {
       payment: 'Cash',
     },
   ];
-  const [bigList, setBigList] = React.useState(biglist);
   const [entries, setEntries] = React.useState(entryList);
+  const [bigList, setBigList] = React.useState(biglist);
   return (
     <SafeAreaView style={styles.safe}>
       <BigList data={bigList} />

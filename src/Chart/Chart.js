@@ -11,7 +11,7 @@ import {VictoryPie} from 'victory-native';
 
 import {Svg} from 'react-native-svg';
 
-import {COLORS, FONTS, SIZES} from './theme';
+import {COLORS, FONTS, SIZES} from '../constants';
 
 const Chart = props => {
   const [categories, setCategories] = useState(props.data);

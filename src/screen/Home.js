@@ -8,9 +8,10 @@ import {
   Button,
 } from 'react-native';
 import BigList from '../BigList';
+import SmallList from '../SmallList';
 
 const Home = ({navigation}) => {
-  let data = [
+  let biglist = [
     {
       id: 1,
       title: 'Total Salary',
@@ -27,17 +28,12 @@ const Home = ({navigation}) => {
       value: 300,
     },
   ];
-  const [listData, setData] = React.useState(data);
+  const [bigList, setBigList] = React.useState(biglist);
   return (
     <SafeAreaView style={styles.safe}>
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <BigList data={listData} />
-        <Button
-          title="Saving"
-          onPress={() => {
-            navigation.navigate('Saving');
-          }}
-        />
+        {/*<BigList data={bigList} />*/}
+        <SmallList navigation={navigation} />
         <Button
           title="Entries"
           onPress={() => navigation.navigate('Entries')}

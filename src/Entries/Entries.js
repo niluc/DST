@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 
 import {icons, COLORS, SIZES, FONTS} from '../constants';
-import MoreInfoButton from '../MoreInfoButton';
 
 export default function Entries(props) {
   const [data, setData] = useState(props.data);

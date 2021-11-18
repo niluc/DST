@@ -172,7 +172,9 @@ const TotalExpense = () => {
   return (
     <SafeAreaView style={styles.safe}>
       <ScrollView>
-        <Calendar />
+        <View style={{marginHorizontal: 20}}>
+          <Calendar />
+        </View>
         <Circle
           value={1800}
           footer={'You have Spend total 60% of your budget'}

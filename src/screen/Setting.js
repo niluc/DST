@@ -101,7 +101,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#BF3B3B',
     borderRadius: 15,
     padding: 15,
-    paddingHorizontal: 60,
+    width: "80%",
   },
   container: {
     flex: 1,

@@ -1,18 +1,17 @@
 import React from 'react';
-import {StyleSheet,Pressable, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import {StyleSheet, SafeAreaView} from 'react-native';
 import { COLORS } from "../constants"
 
-
-const AddIncome = () => {
+const ForgotPassword = () => {
   return (
     <SafeAreaView style={styles.safe}>
     </SafeAreaView>
   );
 };
 
-export default AddIncome;
+export default ForgotPassword;
 
-export const styles=StyleSheet.create({
+export const styles = StyleSheet.create({
   safe: {
     flex: 1,
     alignItems: 'center',

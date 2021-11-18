@@ -14,5 +14,10 @@ export const styles=StyleSheet.create({
     safe: {
     flexDirection: 'row',
     justifyContent: 'center',
+<<<<<<< Updated upstream
+=======
+    justifyContent: 'flex-start',
+    backgroundColor: COLORS.white,
+>>>>>>> Stashed changes
   },
 });

@@ -9,7 +9,7 @@ export default function TextField(props) {
         <TextInput
           style={{...styles.fsize, flex: 1}}
           secureTextEntry={'secureTextEntry' in props}
-          //value={props.value}
+          value={props.value}
           placeholder={'placeholder' in props ? props.placeholder : ''}
           onChangeText={text => props.onChange(text)}
         />

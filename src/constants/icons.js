@@ -8,6 +8,7 @@ export const calendar2 = require('../../assets/icons/calendar2.png');
 export const bell = require('../../assets/icons/bell.png');
 export const add_exclusive = require('../../assets/icons/add_exclusive.png');
 export const three_dot = require('../../assets/icons/three_dot.png');
+export const down_arrow = require('../../assets/icons/down_arrow.png');
 
 export default {
   wallet,
@@ -20,4 +21,5 @@ export default {
   add_exclusive,
   three_dot,
   calendar2,
+  down_arrow,
 };

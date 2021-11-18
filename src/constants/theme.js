@@ -79,6 +79,11 @@ export const FONTS = {
     fontSize: SIZES.body4,
     lineHeight: 22,
   },
+  texttitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
 };
 
 const appTheme = {COLORS, SIZES, FONTS};

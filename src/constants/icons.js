@@ -8,6 +8,9 @@ export const calendar2 = require('../../assets/icons/calendar2.png');
 export const bell = require('../../assets/icons/bell.png');
 export const add_exclusive = require('../../assets/icons/add_exclusive.png');
 export const three_dot = require('../../assets/icons/three_dot.png');
+export const down_arrow = require('../../assets/icons/down_arrow.png');
+export const left_arrow = require('../../assets/icons/left_arrow.png');
+export const right_arrow = require('../../assets/icons/right_arrow.png');
 export const user = require('../../assets/icons/user.png');
 
 export default {
@@ -21,5 +24,8 @@ export default {
   add_exclusive,
   three_dot,
   calendar2,
-  user
+  user,
+  down_arrow,
+  left_arrow,
+  right_arrow,
 };

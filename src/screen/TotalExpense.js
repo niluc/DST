@@ -191,4 +191,5 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     backgroundColor: COLORS.white,
-});
+  }}
+  );

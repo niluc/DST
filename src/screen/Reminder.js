@@ -35,12 +35,6 @@ const Reminder = ({navigation}) => {
   return (
     <SafeAreaView style={styles.safe}>
       <Reminders data={reminders} navigation={navigation} />
-      {/*
-        <Button
-          title="SetReminder"
-          onPress={() => navigation.navigate('SetReminder')}
-        />
-        */}
     </SafeAreaView>
   );
 };

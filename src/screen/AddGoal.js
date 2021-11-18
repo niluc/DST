@@ -111,6 +111,7 @@ const AddGoal = () => {
 
 export default AddGoal;
 
+
 export const styles = StyleSheet.create({
   safe: {
     flex: 1,

@@ -191,7 +191,7 @@ export const styles = StyleSheet.create({
   safe: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
     justifyContent: 'flex-start',
-  },
-});
+    backgroundColor: COLORS.white,
+  }}
+  );

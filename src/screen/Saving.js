@@ -211,6 +211,7 @@ const Saving = ({navigation}) => {
 
 export default Saving;
 
+
 export const styles = StyleSheet.create({
   safe: {
     flex: 1,
@@ -218,7 +219,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
-    backgroundColor: 'white',
+    backgroundColor: COLORS.background1,
   },
   shadow: {
     shadowColor: '#000',

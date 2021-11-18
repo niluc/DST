@@ -1,6 +1,7 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet,Pressable, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import EntriesList from '../Entries';
+import { COLORS } from "../constants"
 
 const Entries = () => {
   let entryList = [
@@ -38,7 +39,11 @@ export default Entries;
 
 export const styles = StyleSheet.create({
   safe: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    backgroundColor: COLORS.background1,
   },
 });

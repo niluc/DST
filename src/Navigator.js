@@ -2,7 +2,12 @@ import {createStackNavigator} from '@react-navigation/stack'
 import {NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { Image, View, TouchableOpacity } from "react-native";
+import {
+  Image,
+  View,
+  TouchableOpacity,
+  Button } from "react-native";
+import { COLORS, icons } from "./constants"
 
 import {
     Home,
@@ -15,8 +20,15 @@ import {
     AddExpense,
     Reminder,
     SetReminder,
-    Setting
+    Setting,
+    Account,
+    SignIn,
+    SignUp,
+    ForgotPassword,
+    ResetPassword,
 } from './screen';
+
+const isSignIn = 1;
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -36,7 +48,7 @@ const CustomTabBarButton = ({children, onPress}) => (
       width: 100,
       height: 100,
       borderRadius: 50,
-      backgroundColor: '#3B3DBF'
+      backgroundColor: COLORS.support1,
     }}>
       {children}
     </View>
@@ -50,7 +62,6 @@ const Tabs = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           height: 98,
-          backgroundColor: '#F0F1F5'
         },
         headerShown: false
       }}
@@ -159,9 +170,11 @@ const Tabs = () => {
   );
 }
 
+const AccountStack = ["Account", "SignIn", "SignUp", "ForgotPassword", "ResetPassword"];
+
 const HomeStack = ({navigation, route}) => {
   React.useLayoutEffect(() => {
-    const tabHiddenRoutes = ["Saving","AddGoal","Entries"];
+    const tabHiddenRoutes = ["Saving","Entries","AddGoal",...AccountStack] ;
     if(tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))){
         navigation.setOptions({
           tabBarStyle: {display: 'none'}
@@ -171,7 +184,7 @@ const HomeStack = ({navigation, route}) => {
         navigation.setOptions({
           tabBarStyle: {
             height: 98,
-            backgroundColor: '#F0F1F5'
+            backgroundColor: COLORS.background1,
           }
         });
     }
@@ -181,12 +194,34 @@ const HomeStack = ({navigation, route}) => {
       screenOptions={{
         headerStyle: {
           height: 120,
-          backgroundColor: '#F2F2F2'
+          backgroundColor: COLORS.white,
         },
         headerTitleAlign: 'center',
         headerTitleStyle: {
           fontSize: 25
-        }
+        },
+        headerRight: () => (
+            <TouchableOpacity
+            onPress={() => navigation.navigate('HomeStack',{ screen: isSignIn == 0 ? 'Account' : 'SignIn'})}
+            style={{
+              width: 45,
+              height: 45,
+              right:30,
+              backgroundColor: COLORS.primary,
+              borderRadius: 8,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              source={icons.user}
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: COLORS.primary20,
+              }}
+            />
+          </TouchableOpacity>
+          ),
       }}
     >
       <Stack.Screen
@@ -196,52 +231,95 @@ const HomeStack = ({navigation, route}) => {
       <Stack.Screen
         name="Saving"
         component={Saving}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+        }}
       />
       <Stack.Screen
         name="AddGoal"
         component={AddGoal}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+        }}
       />
       <Stack.Screen
         name="Entries"
         component={Entries}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+        }}
       />
-    </Stack.Navigator>
-  )
-}
-
-const TotalExpensesStack = ({navigation}) => {
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      tabBarStyle: {
-        height: 98,
-        backgroundColor: '#F0F1F5'
-      }
-    });
-    }, [navigation]);
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          height: 120,
-          backgroundColor: '#F2F2F2'
-        },
-        headerTitleAlign: 'center',
-        headerTitleStyle: {
-          fontSize: 25
-        }
-      }}
-    >
       <Stack.Screen
-        name="TotalExpenses"
-        component={TotalExpenses}
+        name="Account"
+        component={Account}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="ResetPassword"
+        component={ResetPassword}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
       />
     </Stack.Navigator>
   )
 }
 
-const AddStack = ({navigation, route}) => {
+const TotalExpensesStack = ({navigation, route}) => {
   React.useLayoutEffect(() => {
-    const tabHiddenRoutes = ["AddIncome","AddExpense"];
+    const tabHiddenRoutes = [...AccountStack];
     if(tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))){
         navigation.setOptions({
           tabBarStyle: {display: 'none'}
@@ -251,7 +329,7 @@ const AddStack = ({navigation, route}) => {
         navigation.setOptions({
           tabBarStyle: {
             height: 98,
-            backgroundColor: '#F0F1F5'
+            backgroundColor: COLORS.background1,
           }
         });
     }
@@ -261,12 +339,149 @@ const AddStack = ({navigation, route}) => {
       screenOptions={{
         headerStyle: {
           height: 120,
-          backgroundColor: '#F2F2F2'
+          backgroundColor: COLORS.white,
         },
         headerTitleAlign: 'center',
         headerTitleStyle: {
           fontSize: 25
-        }
+        },
+        headerRight: () => (
+            <TouchableOpacity
+            onPress={() => navigation.navigate('TotalExpensesStack', {screen: isSignIn == 0 ? 'Account' : 'SignIn'})}
+            style={{
+              width: 45,
+              height: 45,
+              right:30,
+              backgroundColor: COLORS.primary,
+              borderRadius: 8,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              source={icons.user}
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: COLORS.primary20,
+              }}
+            />
+          </TouchableOpacity>
+          ),
+      }}
+    >
+      <Stack.Screen
+        name="TotalExpenses"
+        component={TotalExpenses}
+      />
+      <Stack.Screen
+        name="Account"
+        component={Account}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="ResetPassword"
+        component={ResetPassword}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
+
+const AddStack = ({navigation, route}) => {
+  React.useLayoutEffect(() => {
+    const tabHiddenRoutes = ["AddIncome", "AddExpense", "Entries",...AccountStack] ;
+    if(tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))){
+        navigation.setOptions({
+          tabBarStyle: {display: 'none'}
+          });
+    }
+    else {
+        navigation.setOptions({
+          tabBarStyle: {
+            height: 98,
+            backgroundColor: COLORS.background1,
+          }
+        });
+    }
+  }, [navigation, route]);
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          height: 120,
+          backgroundColor: COLORS.white,
+        },
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontSize: 25
+        },
+        headerRight: () => (
+            <TouchableOpacity
+            onPress={() => navigation.navigate('AddStack',{screen: isSignIn == 0 ? 'Account' : 'SignIn'})}
+            style={{
+              width: 45,
+              height: 45,
+              right:30,
+              backgroundColor: COLORS.primary,
+              borderRadius: 8,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              source={icons.user}
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: COLORS.primary20,
+              }}
+            />
+          </TouchableOpacity>
+          ),
       }}
     >
       <Stack.Screen
@@ -276,18 +491,96 @@ const AddStack = ({navigation, route}) => {
       <Stack.Screen
         name="AddIncome"
         component={AddIncome}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+        }}
       />
       <Stack.Screen
         name="AddExpense"
         component={AddExpense}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Entries"
+        component={Entries}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Account"
+        component={Account}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="ResetPassword"
+        component={ResetPassword}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
       />
     </Stack.Navigator>
+    
   )
 }
 
 const ReminderStack = ({navigation, route}) => {
   React.useLayoutEffect(() => {
-    const tabHiddenRoutes = ["SetReminder"];
+    const tabHiddenRoutes = ["SetReminder",...AccountStack];
     if(tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))){
         navigation.setOptions({
           tabBarStyle: {display: 'none'}
@@ -297,7 +590,7 @@ const ReminderStack = ({navigation, route}) => {
         navigation.setOptions({
           tabBarStyle: {
             height: 98,
-            backgroundColor: '#F0F1F5'
+            backgroundColor: COLORS.background1,
           }
         });
     }
@@ -307,12 +600,34 @@ const ReminderStack = ({navigation, route}) => {
       screenOptions={{
         headerStyle: {
           height: 120,
-          backgroundColor: '#F2F2F2'
+          backgroundColor: COLORS.white,
         },
         headerTitleAlign: 'center',
         headerTitleStyle: {
           fontSize: 25
-        }
+        },
+        headerRight: () => (
+            <TouchableOpacity
+            onPress={() => navigation.navigate('ReminderStack', {screen: isSignIn == 0 ? 'Account' : 'SignIn'})}
+            style={{
+              width: 45,
+              height: 45,
+              right:30,
+              backgroundColor: COLORS.primary,
+              borderRadius: 8,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              source={icons.user}
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: COLORS.primary20,
+              }}
+            />
+          </TouchableOpacity>
+          ),
       }}
     >
       <Stack.Screen
@@ -322,39 +637,187 @@ const ReminderStack = ({navigation, route}) => {
       <Stack.Screen
         name="SetReminder"
         component={SetReminder}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Account"
+        component={Account}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="ResetPassword"
+        component={ResetPassword}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
       />
     </Stack.Navigator>
   )
 }
 
-const SettingStack = ({navigation}) => {
+const SettingStack = ({navigation, route}) => {
   React.useLayoutEffect(() => {
-    navigation.setOptions({
-      tabBarStyle: {
-        height: 98,
-        backgroundColor: '#F0F1F5'
-      }
-    });
-    }, [navigation]);
+    const tabHiddenRoutes = [...AccountStack];
+    if(tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))){
+        navigation.setOptions({
+          tabBarStyle: {display: 'none'}
+          });
+    }
+    else {
+        navigation.setOptions({
+          tabBarStyle: {
+            height: 98,
+            backgroundColor: COLORS.background1,
+          }
+        });
+    }
+  }, [navigation, route]);
   return (
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
           height: 120,
-          backgroundColor: '#F2F2F2'
+          backgroundColor: COLORS.white,
         },
         headerTitleAlign: 'center',
         headerTitleStyle: {
           fontSize: 25
-        }
+        },
+        headerRight: () => (
+            <TouchableOpacity
+            onPress={() => navigation.navigate('SettingStack',{screen: isSignIn == 0 ? 'Account' : 'SignIn'})}
+            style={{
+              width: 45,
+              height: 45,
+              right:30,
+              backgroundColor: COLORS.primary,
+              borderRadius: 8,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              source={icons.user}
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: COLORS.primary20,
+              }}
+            />
+          </TouchableOpacity>
+          ),
       }}
     >
       <Stack.Screen
         name="Setting"
         component={Setting}
       />
+      <Stack.Screen
+        name="Account"
+        component={Account}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
+      <Stack.Screen
+        name="ResetPassword"
+        component={ResetPassword}
+        options={{
+          headerStyle: {
+            height: 120,
+            backgroundColor: COLORS.background1,
+          },
+          headerRight: () => [],
+        }}
+      />
     </Stack.Navigator>
   )
 }
+
+
 
 export default Tabs;

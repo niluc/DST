@@ -11,6 +11,7 @@ export const three_dot = require('../../assets/icons/three_dot.png');
 export const down_arrow = require('../../assets/icons/down_arrow.png');
 export const left_arrow = require('../../assets/icons/left_arrow.png');
 export const right_arrow = require('../../assets/icons/right_arrow.png');
+export const user = require('../../assets/icons/user.png');
 
 export default {
   wallet,
@@ -23,6 +24,7 @@ export default {
   add_exclusive,
   three_dot,
   calendar2,
+  user,
   down_arrow,
   left_arrow,
   right_arrow,

@@ -8,6 +8,7 @@ import {
   Button,
 } from 'react-native';
 import Reminders from '../Reminder';
+import { COLORS } from "../constants"
 
 const Reminder = ({navigation}) => {
   let reminderList = [
@@ -34,12 +35,6 @@ const Reminder = ({navigation}) => {
   return (
     <SafeAreaView style={styles.safe}>
       <Reminders data={reminders} navigation={navigation} />
-      {/*
-        <Button
-          title="SetReminder"
-          onPress={() => navigation.navigate('SetReminder')}
-        />
-        */}
     </SafeAreaView>
   );
 };
@@ -54,5 +49,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     padding: 25,
+    backgroundColor: COLORS.white,
   },
 });

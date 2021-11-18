@@ -44,7 +44,7 @@ export default function BigList(props) {
         width: 130,
         padding: 15,
         marginRight: 20,
-        marginLeft: index == 0 ? SIZES.padding : 0,
+        marginLeft: index == 0 ? SIZES.padding : 25,
         marginVertical: SIZES.radius,
         borderRadius: SIZES.radius,
         backgroundColor: isOdd(index) ? COLORS.white : COLORS.primary,

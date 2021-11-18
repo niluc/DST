@@ -12,7 +12,7 @@ export default function BigList(props) {
         width: 130,
         padding: 15,
         marginRight: 20,
-        marginLeft: index == 0 ? SIZES.padding : 0,
+        marginLeft: index == 0 ? SIZES.padding : 25,
         marginVertical: SIZES.radius,
         borderRadius: SIZES.radius,
         backgroundColor: index % 2 == 0 ? COLORS.white : COLORS.primary,

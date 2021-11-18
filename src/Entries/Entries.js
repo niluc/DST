@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import {icons, COLORS, SIZES, FONTS} from '../constants';
+import MoreInfoButton from '../MoreInfoButton';
 
 export default function Entries(props) {
   const [data, setData] = useState(props.data);
@@ -82,25 +83,27 @@ export default function Entries(props) {
         <Text style={{...FONTS.h1, color: 'black', fontWeight: '700'}}>
           Latest Entries
         </Text>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate('Entries')}
-          style={{
-            width: 45,
-            height: 45,
-            backgroundColor: COLORS.primary,
-            borderRadius: 8,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Image
-            source={icons.three_dot}
+        {'navigation' in props && (
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Entries')}
             style={{
-              width: 25,
-              height: 8,
-              tintColor: COLORS.secondary,
-            }}
-          />
-        </TouchableOpacity>
+              width: 45,
+              height: 45,
+              backgroundColor: COLORS.primary20,
+              borderRadius: 8,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              source={icons.three_dot}
+              style={{
+                width: 25,
+                height: 8,
+                tintColor: COLORS.primary,
+              }}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       {data.length > 0 && (
         <FlatList

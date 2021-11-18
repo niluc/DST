@@ -26,7 +26,7 @@ export default function BigList(props) {
       title: 'Reminders',
       icon: 'bell',
       navigate: () => {
-        props.navigation.navigate('Reminder');
+        props.navigation.navigate('ReminderStack');
       },
     },
     {

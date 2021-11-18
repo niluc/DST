@@ -1,28 +1,42 @@
 import React from 'react';
-<<<<<<< Updated upstream
 import {StyleSheet,Pressable, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
-
-=======
-import {StyleSheet, SafeAreaView} from 'react-native';
 import EntriesList from '../Entries';
 import { COLORS } from "../constants"
->>>>>>> Stashed changes
 
 const Entries = () => {
+  let entryList = [
+    {
+      id: 1,
+      type: 'Food',
+      date: '10/08/2021',
+      value: -500,
+      payment: 'Cash',
+    },
+    {
+      id: 2,
+      type: 'Food',
+      date: '1/08/2021',
+      value: -300,
+      payment: 'Cash',
+    },
+    {
+      id: 3,
+      type: 'Food',
+      date: '28/07/2021',
+      value: -100,
+      payment: 'Cash',
+    },
+  ];
+  const [entries, setEntries] = React.useState(entryList);
   return (
     <SafeAreaView style={styles.safe}>
+      <EntriesList data={entries} />
     </SafeAreaView>
   );
 };
 
 export default Entries;
 
-<<<<<<< Updated upstream
-export const styles=StyleSheet.create({
-    safe: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-=======
 export const styles = StyleSheet.create({
   safe: {
     flex: 1,
@@ -31,6 +45,5 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     backgroundColor: COLORS.background1,
->>>>>>> Stashed changes
   },
 });

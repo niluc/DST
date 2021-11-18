@@ -11,7 +11,7 @@ import {VictoryPie} from 'victory-native';
 
 import {Svg} from 'react-native-svg';
 
-import {COLORS, FONTS, SIZES} from './theme';
+import {COLORS, FONTS, SIZES} from '../constants';
 
 const Chart = props => {
   const [categories, setCategories] = useState(props.data);
@@ -221,7 +221,7 @@ const Chart = props => {
               },
             }}
             width={SIZES.width}
-            height={330}
+            height={430}
             colorScale={colorScales}
             events={[
               {
@@ -243,7 +243,7 @@ const Chart = props => {
             ]}
           />
         </Svg>
-        <View style={{position: 'absolute', top: '69%', left: '41%'}}>
+        <View style={{position: 'absolute', top: '73%', left: '43%'}}>
           <Text style={{...FONTS.h1, textAlign: 'center'}}>
             {totalExpenseCount}
           </Text>

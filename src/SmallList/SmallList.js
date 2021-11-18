@@ -1,13 +1,45 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, FlatList, Image} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import isOdd from 'is-odd';
 
 import {icons, COLORS, SIZES, FONTS} from '../constants';
 
 export default function BigList(props) {
-  const [data, setData] = useState(props.data);
+  let smallList = [
+    {
+      id: 1,
+      title: 'Savings',
+      icon: 'add_exclusive',
+      navigate: () => {
+        props.navigation.navigate('Saving');
+      },
+    },
+    {
+      id: 2,
+      title: 'Reminders',
+      icon: 'bell',
+      navigate: () => {
+        props.navigation.navigate('ReminderStack');
+      },
+    },
+    {
+      id: 3,
+      title: 'Budget',
+      icon: 'wallet',
+    },
+  ];
+  const [data, setData] = useState(smallList);
 
   const renderItem = ({item, index}) => (
-    <View
+    <TouchableOpacity
+      onPress={item.navigate}
       style={{
         width: 130,
         padding: 15,
@@ -15,47 +47,41 @@ export default function BigList(props) {
         marginLeft: index == 0 ? SIZES.padding : 25,
         marginVertical: SIZES.radius,
         borderRadius: SIZES.radius,
-        backgroundColor: index % 2 == 0 ? COLORS.white : COLORS.primary,
+        backgroundColor: isOdd(index) ? COLORS.white : COLORS.primary,
         ...styles.shadow,
+        alignItems: 'center',
       }}>
-      <Image
-        source={icons.wallet}
+      <View
         style={{
-          width: 25,
-          height: 25,
+          padding: 10,
+          borderRadius: 10,
           marginBottom: 5,
-          tintColor: index % 2 == 0 ? COLORS.black : COLORS.white,
-        }}
-      />
+          backgroundColor: isOdd(index) ? '#F0F1F5' : '#ABD8E8',
+          marginHorizontal: 'auto',
+          width: 45,
+        }}>
+        <Image
+          source={icons[item.icon]}
+          style={{
+            width: 25,
+            height: 25,
+            tintColor: isOdd(index) ? COLORS.black : COLORS.white,
+          }}
+        />
+      </View>
       {/* Title */}
       <Text
         style={{
           ...FONTS.h3,
-          color: index % 2 == 0 ? COLORS.black : COLORS.white,
+          color: isOdd(index) ? COLORS.black : COLORS.white,
         }}>
         {item.title}
       </Text>
-      <View style={{flex: 1}}></View>
-      {/* Price */}
-      <View
-        style={{
-          justifyContent: 'center',
-        }}>
-        <Text
-          style={{
-            color: index % 2 == 0 ? COLORS.black : COLORS.white,
-            ...FONTS.body3,
-            fontWeight: '700',
-          }}>
-          ${'\n'}
-          {item.value.toFixed(2)}
-        </Text>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
-    <View style={{height: 200}}>
+    <View style={{height: 130}}>
       {data.length > 0 && (
         <FlatList
           data={data}
@@ -71,7 +97,7 @@ export default function BigList(props) {
           style={{
             alignItems: 'center',
             justifyContent: 'center',
-            height: 200,
+            height: 130,
           }}>
           <Text style={{color: COLORS.primary, ...FONTS.h3}}>No Record</Text>
         </View>

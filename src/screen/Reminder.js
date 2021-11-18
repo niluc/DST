@@ -1,7 +1,4 @@
 import React from 'react';
-<<<<<<< Updated upstream
-import {StyleSheet, SafeAreaView, Text, TouchableOpacity, View, Button } from "react-native";
-=======
 import {
   StyleSheet,
   SafeAreaView,
@@ -12,29 +9,44 @@ import {
 } from 'react-native';
 import Reminders from '../Reminder';
 import { COLORS } from "../constants"
->>>>>>> Stashed changes
 
 const Reminder = ({navigation}) => {
+  let reminderList = [
+    {
+      id: 1,
+      type: 'Water Bill',
+      date: '10/08/2021',
+      value: 20,
+    },
+    {
+      id: 2,
+      type: 'Car loan',
+      date: '1/08/2021',
+      value: 200,
+    },
+    {
+      id: 3,
+      type: 'Iphone 13 Pro loan',
+      date: '28/07/2021',
+      value: 100,
+    },
+  ];
+  const [reminders, setReminders] = React.useState(reminderList);
   return (
     <SafeAreaView style={styles.safe}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Reminders data={reminders} navigation={navigation} />
+      {/*
         <Button
           title="SetReminder"
           onPress={() => navigation.navigate('SetReminder')}
         />
-      </View>
+        */}
     </SafeAreaView>
   );
 };
 
 export default Reminder;
 
-<<<<<<< Updated upstream
-export const styles=StyleSheet.create({
-    safe: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-=======
 export const styles = StyleSheet.create({
   safe: {
     flex: 1,
@@ -44,6 +56,5 @@ export const styles = StyleSheet.create({
     alignItems: 'stretch',
     padding: 25,
     backgroundColor: COLORS.white,
->>>>>>> Stashed changes
   },
 });

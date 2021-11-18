@@ -11,7 +11,7 @@ import isOdd from 'is-odd';
 
 import {icons, COLORS, SIZES, FONTS} from '../constants';
 
-export default function BigList(props) {
+export default function SmallList(props) {
   let smallList = [
     {
       id: 1,

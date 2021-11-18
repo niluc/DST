@@ -125,6 +125,13 @@ const AddIncome = () => {
           </View>
         )}
       </View>
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.loginBtn}>
+          <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>
+            Add Income
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -148,5 +155,19 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 3,
+  },
+  loginBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.secondary,
+    borderRadius: 15,
+    padding: 15,
+    paddingHorizontal: 60,
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginBottom: 50,
   },
 });

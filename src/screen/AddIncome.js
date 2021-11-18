@@ -136,7 +136,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    backgroundColor: 'white',
+    backgroundColor: COLORS.background1,
     padding: 20,
   },
   shadow: {

@@ -6,6 +6,7 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Alert,
   SafeAreaView,} from 'react-native';
 import { COLORS, icons } from "../constants"
 
@@ -35,7 +36,9 @@ const SignIn = ({navigation}) => {
       </View>
 
       <View style={styles.container1}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ForgotPassword')}
+        >
           <Text style={styles.forgot}>Forgot password?</Text>
         </TouchableOpacity>
 
@@ -47,7 +50,18 @@ const SignIn = ({navigation}) => {
       </View>
 
       <View style={styles.container}>
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity 
+        style={styles.loginBtn}
+        onPress={() => {
+          if (email == 'Admin' && password == '1') navigation.navigate('Account');
+          else Alert.alert(
+            'Error','The user name/e-mail/password provided is incorrect!',
+            [
+              {text: 'Again'}
+            ]
+          )
+        }}
+        >
           <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
             Sign In
           </Text>

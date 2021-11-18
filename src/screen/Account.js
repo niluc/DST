@@ -71,6 +71,13 @@ const Account = ({navigation}) => {
       <TouchableOpacity>
         <Text style={{ ...styles.forgot, marginTop: 20 }}>Change Password</Text>
       </TouchableOpacity>
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.loginBtn} onPress={() => navigation.navigate('SignIn')}>
+          <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
+            Log out
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -115,5 +122,18 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
+  },
+  container: {
+    marginTop: 100,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  loginBtn: {
+    backgroundColor: COLORS.red,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "80%",
+    borderRadius: 15,
+    height: 50,
   },
 });

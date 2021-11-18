@@ -4,6 +4,7 @@ export const plus = require('../../assets/icons/plus.png');
 export const home = require('../../assets/icons/home.png');
 export const chart = require('../../assets/icons/chart.png');
 export const calendar = require('../../assets/icons/calendar.png');
+export const calendar2 = require('../../assets/icons/calendar2.png');
 export const bell = require('../../assets/icons/bell.png');
 export const add_exclusive = require('../../assets/icons/add_exclusive.png');
 export const three_dot = require('../../assets/icons/three_dot.png');
@@ -18,4 +19,5 @@ export default {
   bell,
   add_exclusive,
   three_dot,
+  calendar2,
 };

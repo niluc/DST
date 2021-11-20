@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -10,6 +10,7 @@ import {
 import BigList from '../BigList';
 import Entries from '../Entries';
 import SmallList from '../SmallList';
+import {ENTRIES_KEY, getData, clear} from '../Storage';
 
 const Home = ({navigation}) => {
   let biglist = [
@@ -29,36 +30,21 @@ const Home = ({navigation}) => {
       value: 300,
     },
   ];
-  let entryList = [
-    {
-      id: 1,
-      type: 'Food',
-      date: '10/08/2021',
-      value: -500,
-      payment: 'Cash',
-    },
-    {
-      id: 2,
-      type: 'Food',
-      date: '1/08/2021',
-      value: -300,
-      payment: 'Cash',
-    },
-    {
-      id: 3,
-      type: 'Food',
-      date: '28/07/2021',
-      value: -100,
-      payment: 'Cash',
-    },
-  ];
-  const [entries, setEntries] = React.useState(entryList);
+  const [entries, setEntries] = React.useState();
   const [bigList, setBigList] = React.useState(biglist);
+  useEffect(() => {
+    // clear();
+    getData(ENTRIES_KEY, setEntries);
+  }, []);
   return (
     <SafeAreaView style={styles.safe}>
+      {/*
+       */}
       <BigList data={bigList} />
       <SmallList navigation={navigation} />
-      <Entries data={entries} navigation={navigation} />
+      {!(entries === undefined) && (
+        <Entries data={entries} navigation={navigation} />
+      )}
     </SafeAreaView>
   );
 };

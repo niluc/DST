@@ -59,7 +59,6 @@ const AddIncome = () => {
     };
     entries.push(newEntry);
     saveData(ENTRIES_KEY, entries);
-    console.log('Ahihi ' + newID + entries);
     Alert.alert('Success', 'Income was added.', [{text: 'OK'}]);
   };
 

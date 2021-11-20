@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const ENTRIES_KEY = '@entries';
+export const REMINDER_KEY = '@reminder';
 
 export const clear = () => {
   AsyncStorage.clear();

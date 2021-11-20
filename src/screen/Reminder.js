@@ -1,40 +1,30 @@
-import React from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-  Button,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, SafeAreaView} from 'react-native';
 import Reminders from '../Reminder';
-import { COLORS } from "../constants"
+import {COLORS} from '../constants';
+import {REMINDER_KEY, getData, clear} from '../Storage';
 
 const Reminder = ({navigation}) => {
-  let reminderList = [
-    {
-      id: 1,
-      type: 'Water Bill',
-      date: '10/08/2021',
-      value: 20,
-    },
-    {
-      id: 2,
-      type: 'Car loan',
-      date: '1/08/2021',
-      value: 200,
-    },
-    {
-      id: 3,
-      type: 'Iphone 13 Pro loan',
-      date: '28/07/2021',
-      value: 100,
-    },
-  ];
-  const [reminders, setReminders] = React.useState(reminderList);
+  const [reminders, setReminders] = useState([]);
+  const [remindersChange, setRemindersChange] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData(REMINDER_KEY).then(data => {
+        let tempReminder = JSON.parse(data);
+        setReminders(tempReminder.slice(0, 20));
+        setRemindersChange(false);
+        setRemindersChange(true);
+      });
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <SafeAreaView style={styles.safe}>
-      <Reminders data={reminders} navigation={navigation} />
+      {remindersChange && (
+        <Reminders data={reminders} navigation={navigation} />
+      )}
     </SafeAreaView>
   );
 };

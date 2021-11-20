@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
-  Pressable,
   SafeAreaView,
   Text,
   TouchableOpacity,
   View,
   FlatList,
   Image,
+  Alert,
 } from 'react-native';
 import Calendar from '../Calendar';
 import TextField from '../TextField';
@@ -43,7 +43,9 @@ const AddIncome = () => {
   const [category, setCategory] = useState('');
 
   useEffect(() => {
-    getData(ENTRIES_KEY, setEntries);
+    getData(ENTRIES_KEY).then(data => {
+      setEntries(JSON.parse(data));
+    });
   }, []);
 
   const addIncome = () => {
@@ -55,8 +57,10 @@ const AddIncome = () => {
       date: format(date, 'dd/MM/yyy'),
       payment: 'Cash',
     };
-    setEntries(entries.push(newEntry));
+    entries.push(newEntry);
     saveData(ENTRIES_KEY, entries);
+    console.log('Ahihi ' + newID + entries);
+    Alert.alert('Success', 'Income was added.', [{text: 'OK'}]);
   };
 
   const renderItem = ({item, index}) => (

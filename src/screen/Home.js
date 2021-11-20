@@ -30,21 +30,26 @@ const Home = ({navigation}) => {
       value: 300,
     },
   ];
-  const [entries, setEntries] = React.useState();
+  const [entries, setEntries] = React.useState([]);
   const [bigList, setBigList] = React.useState(biglist);
+  const [entriesChange, setEntriesChange] = React.useState(true);
   useEffect(() => {
-    // clear();
-    getData(ENTRIES_KEY, setEntries);
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData(ENTRIES_KEY).then(data => {
+        setEntries(JSON.parse(data).slice(0, 20));
+        setEntriesChange(false);
+        setEntriesChange(true);
+      });
+    });
+    return unsubscribe;
+  }, [navigation]);
   return (
     <SafeAreaView style={styles.safe}>
       {/*
        */}
       <BigList data={bigList} />
       <SmallList navigation={navigation} />
-      {!(entries === undefined) && (
-        <Entries data={entries} navigation={navigation} />
-      )}
+      {entriesChange && <Entries data={entries} navigation={navigation} />}
     </SafeAreaView>
   );
 };

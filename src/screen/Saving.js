@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -11,14 +11,57 @@ import {
 import {format} from 'date-fns';
 import Circle from '../Circle';
 import {icons, FONTS, COLORS} from '../constants';
+import {ENTRIES_KEY, getData, clear} from '../Storage';
+import {isSameMonth} from 'date-fns';
 
 const Saving = ({navigation}) => {
+  const [entries, setEntries] = React.useState([]);
+  const [saving, setSaving] = React.useState(0);
+  const [monthlyGoal, setMonthlyGoal] = React.useState({
+    current: 0,
+    total: 900,
+  });
+  const [goalList, setGoalList] = React.useState([]);
+  const [entriesChange, setEntriesChange] = React.useState(true);
+  const [boxWidth, setBoxWidth] = React.useState(0);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData(ENTRIES_KEY).then(data => {
+        let tempEntries = JSON.parse(data);
+        setEntries(tempEntries.slice(0, 20));
+
+        // Get total salary and expense
+        let salary = tempEntries
+          .filter(item => item.value > 0)
+          .reduce((x, y) => x + y.value, 0);
+        let expense = -tempEntries
+          .filter(item => item.value < 0)
+          .reduce((x, y) => x + y.value, 0);
+        setSaving(salary - expense);
+        // Get month salary and expense
+        let currentDay = new Date();
+        let monthEntries = tempEntries.filter(item => {
+          let parseDay = item.date.split('/').reverse();
+          parseDay[1] -= 1;
+          return isSameMonth(currentDay, new Date(...parseDay));
+        });
+        let month_salary = monthEntries
+          .filter(item => item.value > 0)
+          .reduce((x, y) => x + y.value, 0);
+        let month_expense = -monthEntries
+          .filter(item => item.value < 0)
+          .reduce((x, y) => x + y.value, 0);
+        setMonthlyGoal({
+          current: month_salary - month_expense,
+          total: 900,
+        });
+        setEntriesChange(false);
+        setEntriesChange(true);
+      });
+    });
+    return unsubscribe;
+  }, [navigation]);
   let input = {
-    saving: 900,
-    monthly_goal: {
-      current: 300,
-      total: 900,
-    },
     goal_list: [
       {
         id: 1,
@@ -59,7 +102,6 @@ const Saving = ({navigation}) => {
     ],
   };
   const [data, setData] = React.useState(input);
-  const [boxWidth, setBoxWidth] = React.useState(0);
 
   const renderItem = ({item, index}) => (
     <View
@@ -99,59 +141,59 @@ const Saving = ({navigation}) => {
   return (
     <SafeAreaView style={styles.safe}>
       {/* Current saving*/}
-      <Circle header={'Current Saving'} value={data.saving} />
+      {entriesChange && <Circle header={'Current Saving'} value={saving} />}
       {/* Money Goal box*/}
-      <View style={{...styles.box, marginVertical: 20}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingTop: 10,
-          }}>
-          <Image
-            source={icons.calendar2}
-            style={{width: 30, height: 30, marginHorizontal: 20}}
-          />
-          <Text style={{...FONTS.h2, textAlign: 'left', flex: 1}}>
-            {format(new Date(), 'MMMM yyy')}
-          </Text>
-        </View>
-        <Text style={{alignSelf: 'flex-start', margin: 20, ...FONTS.h3}}>
-          Goal for this month
-        </Text>
-        <View
-          onLayout={event => {
-            var {width} = event.nativeEvent.layout;
-            setBoxWidth(width);
-          }}
-          style={{
-            marginHorizontal: 20,
-            marginBottom: 20,
-            borderRadius: 10,
-            backgroundColor: COLORS.primary20,
-            flexDirection: 'row',
-          }}>
+      {entriesChange && (
+        <View style={{...styles.box, marginVertical: 20}}>
           <View
             style={{
-              borderRadius: 10,
-              width:
-                (data.monthly_goal.current / data.monthly_goal.total) *
-                boxWidth,
-              backgroundColor: COLORS.primary,
               flexDirection: 'row',
               justifyContent: 'center',
+              alignItems: 'center',
+              paddingTop: 10,
             }}>
-            <Text style={{...FONTS.h3, padding: 10}}>
-              ${data.monthly_goal.current}
+            <Image
+              source={icons.calendar2}
+              style={{width: 30, height: 30, marginHorizontal: 20}}
+            />
+            <Text style={{...FONTS.h2, textAlign: 'left', flex: 1}}>
+              {format(new Date(), 'MMMM yyy')}
             </Text>
           </View>
-          <Text
-            style={{...FONTS.h3, padding: 10, textAlign: 'center', flex: 1}}>
-            ${data.monthly_goal.total - data.monthly_goal.current}
+          <Text style={{alignSelf: 'flex-start', margin: 20, ...FONTS.h3}}>
+            Goal for this month
           </Text>
+          <View
+            onLayout={event => {
+              var {width} = event.nativeEvent.layout;
+              setBoxWidth(width);
+            }}
+            style={{
+              marginHorizontal: 20,
+              marginBottom: 20,
+              borderRadius: 10,
+              backgroundColor: COLORS.primary20,
+              flexDirection: 'row',
+            }}>
+            <View
+              style={{
+                borderRadius: 10,
+                width: (monthlyGoal.current / monthlyGoal.total) * boxWidth,
+                backgroundColor: COLORS.primary,
+                flexDirection: 'row',
+                justifyContent: 'center',
+              }}>
+              <Text style={{...FONTS.h3, padding: 10}}>
+                ${monthlyGoal.current}
+              </Text>
+            </View>
+            <Text
+              style={{...FONTS.h3, padding: 10, textAlign: 'center', flex: 1}}>
+              ${monthlyGoal.total - monthlyGoal.current}
+            </Text>
+          </View>
         </View>
-      </View>
+      )}
       {/* List Goal box*/}
       <View style={{...styles.box, flex: 1}}>
         <View
@@ -210,7 +252,6 @@ const Saving = ({navigation}) => {
 };
 
 export default Saving;
-
 
 export const styles = StyleSheet.create({
   safe: {

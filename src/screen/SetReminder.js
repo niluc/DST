@@ -1,26 +1,49 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
-  Pressable,
   SafeAreaView,
   Text,
   TouchableOpacity,
   View,
   Image,
-  Button,
+  Alert,
 } from 'react-native';
 import TextField from '../TextField';
-import {icons, FONTS, SIZES, COLORS} from '../constants';
+import {icons, COLORS} from '../constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
+import {REMINDER_KEY, getData, saveData} from '../Storage';
+import {format} from 'date-fns';
 
 const SetReminder = () => {
+  const [reminders, setReminders] = useState([]);
   const [title, setTitle] = useState('');
-  const [amount, setAmount] = useState('');
-  const [contributeType, setContributeType] = useState('');
+  const [amount, setAmount] = useState(0);
+  const [contributeType, setContributeType] = useState('daily');
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    getData(REMINDER_KEY).then(data => {
+      setReminders(JSON.parse(data));
+    });
+  }, []);
+
+  const addReminder = () => {
+    let newID =
+      reminders.length === 0 ? 1 : reminders[reminders.length - 1].id + 1;
+    let newReminder = {
+      id: newID,
+      type: title,
+      date: format(date, 'dd/MM/yyy'),
+      value: parseFloat(amount),
+      contribute: contributeType,
+    };
+    reminders.push(newReminder);
+    saveData(REMINDER_KEY, reminders);
+    Alert.alert('Success', 'Reminder was added.', [{text: 'OK'}]);
+  };
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -107,6 +130,7 @@ const SetReminder = () => {
         />
       )}
       <TouchableOpacity
+        onPress={addReminder}
         style={{
           ...styles.loginBtn,
           alignSelf: 'center',

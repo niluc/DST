@@ -1,36 +1,27 @@
-import React from 'react';
-import {StyleSheet,Pressable, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import React, {useEffect} from 'react';
+import {StyleSheet, SafeAreaView} from 'react-native';
 import EntriesList from '../Entries';
-import { COLORS } from "../constants"
+import {COLORS} from '../constants';
+import {ENTRIES_KEY, getData, clear} from '../Storage';
 
-const Entries = () => {
-  let entryList = [
-    {
-      id: 1,
-      type: 'Food',
-      date: '10/08/2021',
-      value: -500,
-      payment: 'Cash',
-    },
-    {
-      id: 2,
-      type: 'Food',
-      date: '1/08/2021',
-      value: -300,
-      payment: 'Cash',
-    },
-    {
-      id: 3,
-      type: 'Food',
-      date: '28/07/2021',
-      value: -100,
-      payment: 'Cash',
-    },
-  ];
-  const [entries, setEntries] = React.useState(entryList);
+const Entries = ({navigation}) => {
+  const [entries, setEntries] = React.useState([]);
+  const [entriesChange, setEntriesChange] = React.useState(true);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData(ENTRIES_KEY).then(data => {
+        setEntries(JSON.parse(data));
+        setEntriesChange(false);
+        setEntriesChange(true);
+      });
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <SafeAreaView style={styles.safe}>
-      <EntriesList data={entries} />
+      {entriesChange && <EntriesList data={entries} />}
     </SafeAreaView>
   );
 };

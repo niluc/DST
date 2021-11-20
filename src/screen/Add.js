@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Pressable,
@@ -11,32 +11,21 @@ import {
 } from 'react-native';
 import {COLORS, SIZES, FONTS, icons} from '../constants';
 import EntriesList from '../Entries';
+import {ENTRIES_KEY, getData, clear} from '../Storage';
 
 const Add = ({navigation}) => {
-  let entryList = [
-    {
-      id: 1,
-      type: 'Food',
-      date: '10/08/2021',
-      value: -500,
-      payment: 'Cash',
-    },
-    {
-      id: 2,
-      type: 'Food',
-      date: '1/08/2021',
-      value: -300,
-      payment: 'Cash',
-    },
-    {
-      id: 3,
-      type: 'Food',
-      date: '28/07/2021',
-      value: -100,
-      payment: 'Cash',
-    },
-  ];
-  const [entries, setEntries] = React.useState(entryList);
+  const [entries, setEntries] = useState([]);
+  const [entriesChange, setEntriesChange] = useState(true);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData(ENTRIES_KEY).then(data => {
+        setEntries(JSON.parse(data));
+        setEntriesChange(false);
+        setEntriesChange(true);
+      });
+    });
+    return unsubscribe;
+  }, [navigation]);
   return (
     <SafeAreaView style={styles.safe}>
       <View
@@ -124,7 +113,7 @@ const Add = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <EntriesList data={entries} navigation={navigation} />
+      {entriesChange && <EntriesList data={entries} navigation={navigation} />}
     </SafeAreaView>
   );
 };

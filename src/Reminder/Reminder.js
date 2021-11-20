@@ -16,7 +16,7 @@ export default function Reminder(props) {
   const renderItem = ({item, index}) => (
     <View
       style={{
-        padding: 15,
+        padding: 20,
         flexDirection: 'row',
         borderRadius: 10,
         backgroundColor: 'white',
@@ -30,7 +30,7 @@ export default function Reminder(props) {
         }}>
         <Text
           style={{
-            ...FONTS.h3,
+            ...styles.font,
             fontWeight: '700',
             color: COLORS.black,
           }}>
@@ -39,7 +39,8 @@ export default function Reminder(props) {
         <Text
           style={{
             color: COLORS.gray,
-            ...FONTS.body3,
+            ...styles.font,
+
             fontWeight: '900',
           }}>
           {item.value.toFixed(2)}$
@@ -55,7 +56,8 @@ export default function Reminder(props) {
         <Text
           style={{
             color: COLORS.gray,
-            ...FONTS.body3,
+            ...styles.font,
+
             fontWeight: '900',
             textAlign: 'right',
           }}>
@@ -112,5 +114,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 3,
+  },
+  font: {
+    fontSize: 18,
   },
 });

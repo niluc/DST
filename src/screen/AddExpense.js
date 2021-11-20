@@ -1,5 +1,4 @@
-import {startOfMonth} from 'date-fns';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Pressable,
@@ -9,11 +8,14 @@ import {
   View,
   FlatList,
   Image,
+  Alert,
 } from 'react-native';
 import Calendar from '../Calendar';
 import TextField from '../TextField';
 import isOdd from 'is-odd';
 import {icons, FONTS, SIZES, COLORS} from '../constants';
+import {ENTRIES_KEY, getData, saveData} from '../Storage';
+import {format} from 'date-fns';
 
 const AddExpense = () => {
   let cateList = [
@@ -34,10 +36,32 @@ const AddExpense = () => {
     },
   ];
 
+  const [entries, setEntries] = useState([]);
   const [date, setDate] = useState(new Date());
   const [title, setTitle] = useState('');
+  const [amount, setAmount] = useState(0);
   const [categories, setCategories] = useState(cateList);
   const [category, setCategory] = useState('');
+
+  useEffect(() => {
+    getData(ENTRIES_KEY).then(data => {
+      setEntries(JSON.parse(data));
+    });
+  }, []);
+
+  const addExpense = () => {
+    let newID = entries.length === 0 ? 1 : entries[entries.length - 1].id + 1;
+    let newEntry = {
+      id: newID,
+      type: category,
+      value: -parseFloat(amount),
+      date: format(date, 'dd/MM/yyy'),
+      payment: 'Cash',
+    };
+    entries.push(newEntry);
+    saveData(ENTRIES_KEY, entries);
+    Alert.alert('Success', 'Expense was added.', [{text: 'OK'}]);
+  };
 
   const renderItem = ({item, index}) => (
     <View>
@@ -96,7 +120,7 @@ const AddExpense = () => {
       />
       <TextField
         title={'Amount'}
-        onChange={setTitle}
+        onChange={setAmount}
         placeholder="Amount"
         keyboardType={'decimal-pad'}
         afterText="$"
@@ -125,7 +149,7 @@ const AddExpense = () => {
         )}
       </View>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity style={styles.loginBtn} onPress={addExpense}>
           <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>
             Add Expense
           </Text>

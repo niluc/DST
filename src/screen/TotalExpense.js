@@ -1,185 +1,121 @@
-import React from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-  ScrollView,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, SafeAreaView, View, ScrollView} from 'react-native';
 
 import Calendar from '../Calendar';
 import Circle from '../Circle';
 import Chart from '../Chart';
 import {COLORS} from '../constants';
+import {ENTRIES_KEY, getData, clear} from '../Storage';
+import {isSameDay, isSameMonth} from 'date-fns';
 
-const TotalExpense = () => {
-  let categoriesData = [
-    {
-      id: 1,
-      name: 'Education',
-      color: COLORS.yellow,
-      expenses: [
-        {
-          id: 1,
-          title: 'Tuition Fee',
-          description: 'Tuition fee',
-          total: 100.0,
-        },
-        {
-          id: 2,
-          title: 'Arduino',
-          description: 'Hardward',
-          total: 30.0,
-        },
-        {
-          id: 3,
-          title: 'Javascript Books',
-          description: 'Javascript books',
-          total: 20.0,
-        },
-        {
-          id: 4,
-          title: 'PHP Books',
-          description: 'PHP books',
-          total: 20.0,
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Nutrition',
-      color: COLORS.lightBlue,
-      expenses: [
-        {
-          id: 5,
-          title: 'Vitamins',
-          description: 'Vitamin',
-          total: 25.0,
-        },
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
 
-        {
-          id: 6,
-          title: 'Protein powder',
-          description: 'Protein',
-          total: 50.0,
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: 'Child',
-      color: COLORS.darkgreen,
-      expenses: [
-        {
-          id: 7,
-          title: 'Toys',
-          description: 'toys',
-          total: 25.0,
-        },
-        {
-          id: 8,
-          title: 'Baby Car Seat',
-          description: 'Baby Car Seat',
-          total: 100.0,
-        },
-        {
-          id: 9,
-          title: 'Pampers',
-          description: 'Pampers',
-          total: 100.0,
-        },
-        {
-          id: 10,
-          title: 'Baby T-Shirt',
-          description: 'T-Shirt',
-          total: 20.0,
-        },
-      ],
-    },
-    {
-      id: 4,
-      name: 'Beauty & Care',
-      color: COLORS.peach,
-      expenses: [
-        {
-          id: 11,
-          title: 'Skin Care product',
-          description: 'skin care',
-          total: 10.0,
-        },
-        {
-          id: 12,
-          title: 'Lotion',
-          description: 'Lotion',
-          total: 50.0,
-        },
-        {
-          id: 13,
-          title: 'Face Mask',
-          description: 'Face Mask',
-          total: 50.0,
-        },
-        {
-          id: 14,
-          title: 'Sunscreen cream',
-          description: 'Sunscreen cream',
-          total: 50.0,
-        },
-      ],
-    },
-    {
-      id: 5,
-      name: 'Sports',
-      color: COLORS.purple,
-      expenses: [
-        {
-          id: 15,
-          title: 'Gym Membership',
-          description: 'Monthly Fee',
-          total: 45.0,
-        },
-        {
-          id: 16,
-          title: 'Gloves',
-          description: 'Gym Equipment',
-          total: 15.0,
-        },
-      ],
-    },
-    {
-      id: 6,
-      name: 'Clothing',
-      color: COLORS.red,
-      expenses: [
-        {
-          id: 17,
-          title: 'T-Shirt',
-          description: 'Plain Color T-Shirt',
-          total: 20.0,
-        },
-        {
-          id: 18,
-          title: 'Jeans',
-          description: 'Blue Jeans',
-          total: 50.0,
-        },
-      ],
-    },
-  ];
-  const [categories, setCategories] = React.useState(categoriesData);
+const TotalExpense = ({navigation}) => {
+  const [entries, setEntries] = React.useState([]);
+  const [entriesChange, setEntriesChange] = React.useState(true);
+  const [date, setDate] = useState(new Date());
+  const [spent, setSpent] = useState(0);
+  const [budget, setBudget] = useState(1);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData(ENTRIES_KEY).then(data => {
+        let tempEntries = JSON.parse(data);
+        setEntries(tempEntries);
+
+        // Get total salary and expense
+        let salary = tempEntries
+          .filter(item => item.value > 0)
+          .reduce((x, y) => x + y.value, 0);
+        // Get day expense
+        let currentDay = date;
+        let dayEntries = tempEntries.filter(item => {
+          let parseDay = item.date.split('/').reverse();
+          parseDay[1] -= 1;
+          return isSameDay(currentDay, new Date(...parseDay));
+        });
+        let day_expense = -dayEntries
+          .filter(item => item.value < 0)
+          .reduce((x, y) => x + y.value, 0);
+        setSpent(day_expense);
+        setBudget(salary);
+
+        // Get category
+        let monthExpense = JSON.parse(data)
+          .filter(item => {
+            let parseDay = item.date.split('/').reverse();
+            parseDay[1] -= 1;
+            return isSameMonth(currentDay, new Date(...parseDay));
+          })
+          .filter(item => item.value < 0)
+          .map(item => {
+            item.value = -item.value;
+            return item;
+          });
+
+        let cates = [...new Set(monthExpense.map(item => item.type))];
+        let _categories = [];
+        let id = 0;
+        cates.forEach(element => {
+          id++;
+          let expenses = monthExpense.filter(item => item.type == element);
+          let color =
+            'rgb(' +
+            getRandomInt(255) +
+            ',' +
+            getRandomInt(255) +
+            ',' +
+            getRandomInt(255) +
+            ')';
+          let category = {
+            id: id,
+            name: element,
+            color: color,
+            expenses: expenses,
+          };
+          _categories.push(category);
+        });
+        console.log(JSON.stringify(_categories));
+        setCategories(_categories);
+        setEntriesChange(false);
+        setEntriesChange(true);
+      });
+    });
+    return unsubscribe;
+  }, [navigation]);
+  useEffect(() => {
+    // Get day expense
+    let dayEntries = entries.filter(item => {
+      let parseDay = item.date.split('/').reverse();
+      parseDay[1] -= 1;
+      return isSameDay(date, new Date(...parseDay));
+    });
+    console.log(JSON.stringify(dayEntries));
+    let day_expense = -dayEntries
+      .filter(item => item.value < 0)
+      .reduce((x, y) => x + y.value, 0);
+    console.log(day_expense);
+    setSpent(day_expense);
+  }, [date]);
 
   return (
     <SafeAreaView style={styles.safe}>
       <ScrollView>
         <View style={{marginHorizontal: 20}}>
-          <Calendar />
+          <Calendar setDate={setDate} />
         </View>
         <Circle
-          value={1800}
-          footer={'You have Spend total 60% of your budget'}
+          value={spent}
+          footer={
+            'You have Spend total ' +
+            ((spent / budget) * 100).toFixed() +
+            '% of your budget'
+          }
         />
-        <Chart data={categories} />
+        {entriesChange && <Chart data={categories} />}
       </ScrollView>
     </SafeAreaView>
   );
@@ -193,5 +129,35 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     backgroundColor: COLORS.white,
-  }}
-  );
+  },
+});
+let b = [
+  {
+    id: 1,
+    name: 'Health',
+    color: 'rgb(137,42,86)',
+    expenses: [
+      {
+        id: 4,
+        type: 'Health',
+        value: 200,
+        date: '20/11/2021',
+        payment: 'Cash',
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Grocery',
+    color: 'rgb(79,89,15)',
+    expenses: [
+      {
+        id: 5,
+        type: 'Grocery',
+        value: 500,
+        date: '20/11/2021',
+        payment: 'Cash',
+      },
+    ],
+  },
+];

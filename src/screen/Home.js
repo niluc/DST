@@ -8,8 +8,8 @@ import {isSameMonth} from 'date-fns';
 
 const Home = ({navigation}) => {
   const [entries, setEntries] = React.useState([]);
-  const [bigList, setBigList] = React.useState([]);
   const [entriesChange, setEntriesChange] = React.useState(true);
+  const [bigList, setBigList] = React.useState([]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -55,7 +55,7 @@ const Home = ({navigation}) => {
           },
           {
             id: 4,
-            title: 'Expense',
+            title: 'Total Expense',
             value: expense,
           },
         ]);

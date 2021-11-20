@@ -83,7 +83,7 @@ const Chart = props => {
           }}>
           {/* Title and description */}
           <Text style={{...FONTS.h2, color: selectedCategory.color}}>
-            {item.title}
+            {item.date}
           </Text>
           <Text
             style={{
@@ -92,7 +92,7 @@ const Chart = props => {
               color: COLORS.darkgray,
               paddingBottom: 20,
             }}>
-            {selectedCategory.name}
+            {item.type}
           </Text>
         </View>
 
@@ -107,7 +107,7 @@ const Chart = props => {
             backgroundColor: selectedCategory.color,
           }}>
           <Text style={{color: COLORS.white, ...FONTS.body3}}>
-            Total {item.total.toFixed(2)} USD
+            Total {item.value.toFixed(2)} USD
           </Text>
         </View>
       </View>
@@ -141,7 +141,7 @@ const Chart = props => {
 
   function processCategoryDataToDisplay() {
     let chartData = categories.map(item => {
-      let expenses = item.expenses.map(a => a.total);
+      let expenses = item.expenses.map(a => a.value);
       var total = expenses.reduce((a, b) => a + (b || 0), 0);
 
       return {
@@ -207,10 +207,10 @@ const Chart = props => {
             labels={datum => `${datum.y}`}
             radius={({datum}) =>
               selectedCategory && selectedCategory.name == datum.name
-                ? SIZES.width * 0.4
-                : SIZES.width * 0.4 - 10
+                ? SIZES.width * 0.38
+                : SIZES.width * 0.38 - 10
             }
-            innerRadius={50}
+            innerRadius={80}
             labelRadius={({innerRadius}) =>
               (SIZES.width * 0.6 + innerRadius) / 2.5
             }
@@ -221,7 +221,7 @@ const Chart = props => {
               },
             }}
             width={SIZES.width}
-            height={430}
+            height={520}
             colorScale={colorScales}
             events={[
               {
@@ -243,7 +243,7 @@ const Chart = props => {
             ]}
           />
         </Svg>
-        <View style={{position: 'absolute', top: '73%', left: '43%'}}>
+        <View style={{position: 'absolute', top: '75%', left: '43%'}}>
           <Text style={{...FONTS.h1, textAlign: 'center'}}>
             {totalExpenseCount}
           </Text>

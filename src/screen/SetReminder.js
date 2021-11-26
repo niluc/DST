@@ -17,7 +17,7 @@ import {format} from 'date-fns';
 import PushNotification from "react-native-push-notification";
 
 
-const SetReminder = () => {
+const SetReminder = ({navigation}) => {
   const [reminders, setReminders] = useState([]);
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState(0);
@@ -49,6 +49,7 @@ const SetReminder = () => {
         value: parseFloat(amount),
         contribute: contributeType,
       };
+      navigation.navigate('Reminder');
       reminders.push(newReminder);
       saveData(REMINDER_KEY, reminders);
       Alert.alert('Success', 'Reminder was added.', [{text: 'OK'}]);
@@ -153,6 +154,7 @@ const SetReminder = () => {
         placeholder={'Date'}
         afterImage={calendar}
         value={date.toDateString()}
+        editable={'false'}
       />
       {show && (
         <DateTimePicker

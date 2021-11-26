@@ -9,6 +9,7 @@ import {
   Alert,
   SafeAreaView,} from 'react-native';
 import { COLORS, icons } from "../constants"
+import {REMINDER_KEY, ENTRIES_KEY, getData, saveData, clear} from '../Storage';
 
 const Account = ({navigation}) => {
   const [data, setData] = useState({
@@ -69,7 +70,10 @@ const Account = ({navigation}) => {
       </View>
 
       <TouchableOpacity>
-        <Text style={{ ...styles.forgot, marginTop: 20 }}>Change Password</Text>
+        <Text style={{ ...styles.forgot, marginTop: 30 }}>Change Password</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => clear()}>
+        <Text style={{ ...styles.reset, marginTop: 0 }}>Reset All Data</Text>
       </TouchableOpacity>
       <View style={styles.container}>
         <TouchableOpacity style={styles.loginBtn} onPress={() => navigation.navigate('SignIn')}>
@@ -119,6 +123,12 @@ export const styles = StyleSheet.create({
   },
   forgot: {
     color: "#3B3DBF",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  reset: {
+    color: COLORS.red,
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,

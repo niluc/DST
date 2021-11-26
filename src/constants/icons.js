@@ -12,6 +12,8 @@ export const down_arrow = require('../../assets/icons/down_arrow.png');
 export const left_arrow = require('../../assets/icons/left_arrow.png');
 export const right_arrow = require('../../assets/icons/right_arrow.png');
 export const user = require('../../assets/icons/user.png');
+export const income = require('../../assets/icons/income.png');
+export const expense = require('../../assets/icons/expense.png');
 
 export default {
   wallet,
@@ -28,4 +30,6 @@ export default {
   down_arrow,
   left_arrow,
   right_arrow,
+  income,
+  expense,
 };

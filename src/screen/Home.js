@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, SafeAreaView, View} from 'react-native';
 import BigList from '../BigList';
 import Entries from '../Entries';
 import SmallList from '../SmallList';
@@ -17,13 +17,7 @@ const Home = ({navigation}) => {
         let tempEntries = JSON.parse(data);
         setEntries(tempEntries.slice(0, 20));
 
-        // Get total salary and expense
-        let salary = tempEntries
-          .filter(item => item.value > 0)
-          .reduce((x, y) => x + y.value, 0);
-        let expense = -tempEntries
-          .filter(item => item.value < 0)
-          .reduce((x, y) => x + y.value, 0);
+
         // Get month salary and expense
         let currentDay = new Date();
         let monthEntries = tempEntries.filter(item => {
@@ -48,16 +42,6 @@ const Home = ({navigation}) => {
             title: 'Monthly Expense',
             value: month_expense,
           },
-          {
-            id: 3,
-            title: 'Total Salary',
-            value: salary,
-          },
-          {
-            id: 4,
-            title: 'Total Expense',
-            value: expense,
-          },
         ]);
         setEntriesChange(false);
         setEntriesChange(true);
@@ -69,7 +53,9 @@ const Home = ({navigation}) => {
     <SafeAreaView style={styles.safe}>
       {/*
        */}
-      {entriesChange && <BigList data={bigList} />}
+      <View style={{alignItems:'center'}}>
+      {entriesChange && <BigList data={bigList}  />}
+      </View>
       <SmallList navigation={navigation} />
       {entriesChange && <Entries data={entries} navigation={navigation} />}
     </SafeAreaView>

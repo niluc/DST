@@ -31,4 +31,5 @@ export const saveData = async (id, value) => {
   }
 };
 
+
 export default {ENTRIES_KEY, getData, saveData};

@@ -5,71 +5,84 @@ import {
   Text,
   FlatList,
   Image,
+  Alert,
   TouchableOpacity,
 } from 'react-native';
-
+import PushNotification from "react-native-push-notification";
+import {REMINDER_KEY} from '../Storage';
 import {icons, COLORS, SIZES, FONTS} from '../constants';
+
+
 
 export default function Reminder(props) {
   const [data, setData] = useState(props.data);
 
+  const deleteNotification = () => {
+    PushNotification.cancelAllLocalNotifications();
+  }
+
   const renderItem = ({item, index}) => (
-    <View
-      style={{
-        padding: 20,
-        flexDirection: 'row',
-        borderRadius: 10,
-        backgroundColor: 'white',
-        marginVertical: 5,
-        ...styles.shadow,
-      }}>
-      {/* Title */}
+    <TouchableOpacity
+      
+    >
       <View
         style={{
-          flexDirection: 'column',
+          padding: 20,
+          flexDirection: 'row',
+          borderRadius: 10,
+          backgroundColor: 'white',
+          marginVertical: 5,
+          ...styles.shadow,
         }}>
-        <Text
+        {/* Title */}
+        <View
           style={{
-            ...styles.font,
-            fontWeight: '700',
-            color: COLORS.black,
+            flexDirection: 'column',
           }}>
-          {item.type}
-        </Text>
-        <Text
-          style={{
-            color: COLORS.gray,
-            ...styles.font,
+          <Text
+            style={{
+              ...styles.font,
+              fontWeight: '700',
+              color: COLORS.black,
+            }}>
+            {item.type}
+          </Text>
+          <Text
+            style={{
+              color: COLORS.gray,
+              ...styles.font,
 
-            fontWeight: '900',
-          }}>
-          {item.value.toFixed(2)}$
-        </Text>
-      </View>
-      <View style={{flex: 1}}></View>
-      {/* Price */}
-      <View
-        style={{
-          flexDirection: 'column',
-          justifyContent: 'center',
-        }}>
-        <Text
+              fontWeight: '900',
+            }}>
+            {item.value.toFixed(2)}$
+          </Text>
+        </View>
+        <View style={{flex: 1}}></View>
+        {/* Price */}
+        <View
           style={{
-            color: COLORS.gray,
-            ...styles.font,
-
-            fontWeight: '900',
-            textAlign: 'right',
+            flexDirection: 'column',
+            justifyContent: 'center',
           }}>
-          Due on {'\n'}
-          {item.date}
-        </Text>
+          <Text
+            style={{
+              color: COLORS.gray,
+              ...styles.font,
+
+              fontWeight: '900',
+              textAlign: 'right',
+            }}>
+            Due on {'\n'}
+            {item.date}
+          </Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
-    <View style={{}}>
+    <View style={{
+          marginBottom: 120,}}>
       {data.length > 0 && (
         <FlatList
           data={data}
@@ -100,6 +113,12 @@ export default function Reminder(props) {
           }}
         />
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => { 
+        deleteNotification();
+        Alert.alert('Success', 'Deleted All Notifications.', [{text: 'OK'}]);
+         }}>
+        <Text style={{ ...styles.reset, marginTop: 10 }}>Delete All Notifications</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -114,6 +133,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 3,
+  },
+  reset: {
+    color: COLORS.red,
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
   },
   font: {
     fontSize: 18,

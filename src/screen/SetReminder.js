@@ -14,12 +14,14 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
 import {REMINDER_KEY, getData, saveData} from '../Storage';
 import {format} from 'date-fns';
+import PushNotification from "react-native-push-notification";
+
 
 const SetReminder = () => {
   const [reminders, setReminders] = useState([]);
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState(0);
-  const [contributeType, setContributeType] = useState('daily');
+  const [contributeType, setContributeType] = useState('one');
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -31,19 +33,50 @@ const SetReminder = () => {
   }, []);
 
   const addReminder = () => {
-    let newID =
-      reminders.length === 0 ? 1 : reminders[reminders.length - 1].id + 1;
-    let newReminder = {
-      id: newID,
-      type: title,
-      date: format(date, 'dd/MM/yyy'),
-      value: parseFloat(amount),
-      contribute: contributeType,
+    if (title == '') {
+      Alert.alert('Error', 'Income Title is a required field.', [{text: 'Again'}]);
+    }
+    else if (amount <= 0) {
+      Alert.alert('Error', 'Amount must be positive.', [{text: 'Again'}]);
+    }
+    else {
+      let newID =
+        reminders.length === 0 ? 1 : reminders[reminders.length - 1].id + 1;
+      let newReminder = {
+        id: newID,
+        type: title,
+        date: format(date, 'dd/MM/yyy'),
+        value: parseFloat(amount),
+        contribute: contributeType,
+      };
+      reminders.push(newReminder);
+      saveData(REMINDER_KEY, reminders);
+      Alert.alert('Success', 'Reminder was added.', [{text: 'OK'}]);
+      if (contributeType == 'one') {
+        PushNotification.localNotificationSchedule({
+          channelId: "reminder-channel",
+          id: `${id}`,
+          date: new Date(date.getFullYear(), date.getMonth(),date.getDate(), 9, 0, 0),
+          allowWhileIdle: true,
+          title: "You have to expense a bill.",
+          message: newReminder.title + " need to be expensed",
+          bigText: "You have to pay " + newReminder.value + "$ for " + newReminder.title,
+        });
+      }
+      else {
+        PushNotification.localNotificationSchedule({
+          channelId: "reminder-channel",
+          id: `${id}`,
+          date: new Date(date.getFullYear(), date.getMonth(),date.getDate(), 9, 0, 0),
+          allowWhileIdle: true,
+          title: "You have to expense a bill.",
+          message: newReminder.title + " need to be expensed",
+          bigText: "You have to pay " + newReminder.value + "$ for " + newReminder.title,
+          repeatType: contributeType,
+        })
+      }
     };
-    reminders.push(newReminder);
-    saveData(REMINDER_KEY, reminders);
-    Alert.alert('Success', 'Reminder was added.', [{text: 'OK'}]);
-  };
+  }
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -95,6 +128,7 @@ const SetReminder = () => {
         title={'Amount'}
         onChange={setAmount}
         placeholder="Amount"
+        keyboardType={'decimal-pad'}
         afterText={'$'}
       />
       <View style={{marginBottom: 20}}>
@@ -108,9 +142,10 @@ const SetReminder = () => {
             padding: 10,
             backgroundColor: 'white',
           }}>
-          <Picker.Item label="Once a day" value="daily" />
-          <Picker.Item label="Once a month" value="monthly" />
-          <Picker.Item label="Once a year" value="yearly" />
+          <Picker.Item label="One Time" value='one' />
+          <Picker.Item label="Every Day" value='day' />
+          <Picker.Item label="Every Week" value='week' />
+          <Picker.Item label="Every Month" value='month' />
         </Picker>
       </View>
       <TextField

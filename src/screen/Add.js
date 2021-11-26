@@ -43,7 +43,7 @@ const Add = ({navigation}) => {
             padding: 20,
             marginVertical: SIZES.radius,
             borderRadius: SIZES.radius,
-            backgroundColor: COLORS.white,
+            backgroundColor: COLORS.primary,
             ...styles.shadow,
             alignItems: 'center',
           }}>
@@ -52,16 +52,16 @@ const Add = ({navigation}) => {
               padding: 10,
               borderRadius: 10,
               marginBottom: 5,
-              backgroundColor: '#F0F1F5',
+              backgroundColor: '#ABD8E8',
               marginHorizontal: 'auto',
               width: 45,
             }}>
             <Image
-              source={icons.wallet}
+              source={icons.income}
               style={{
                 width: 25,
                 height: 25,
-                tintColor: COLORS.black,
+                tintColor: COLORS.white,
               }}
             />
           </View>
@@ -69,7 +69,7 @@ const Add = ({navigation}) => {
           <Text
             style={{
               ...FONTS.h3,
-              color: COLORS.black,
+              color: COLORS.white,
             }}>
             Add Income
           </Text>
@@ -95,7 +95,7 @@ const Add = ({navigation}) => {
               width: 45,
             }}>
             <Image
-              source={icons.wallet}
+              source={icons.expense}
               style={{
                 width: 25,
                 height: 25,

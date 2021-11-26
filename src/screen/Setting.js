@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
 import {COLORS, FONTS} from '../constants';
 import {Picker} from '@react-native-picker/picker';

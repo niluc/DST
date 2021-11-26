@@ -43,6 +43,7 @@ export const SIZES = {
   body2: 20,
   body3: 16,
   body4: 14,
+  body5: 40,
 
   // app dimensions
   width,
@@ -78,6 +79,11 @@ export const FONTS = {
     fontFamily: 'Roboto-Regular',
     fontSize: SIZES.body4,
     lineHeight: 22,
+  },
+  body5: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: SIZES.body5,
+    lineHeight: 50,
   },
   texttitle: {
     fontSize: 20,

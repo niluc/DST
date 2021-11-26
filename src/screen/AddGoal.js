@@ -83,6 +83,7 @@ const AddGoal = () => {
         placeholder={'Deadline'}
         afterImage={calendar}
         value={date.toDateString()}
+        editable={'false'}
       />
       {show && (
         <DateTimePicker

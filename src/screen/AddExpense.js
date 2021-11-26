@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
-  Pressable,
   SafeAreaView,
   Text,
   TouchableOpacity,
@@ -17,7 +16,7 @@ import {icons, FONTS, SIZES, COLORS} from '../constants';
 import {ENTRIES_KEY, getData, saveData} from '../Storage';
 import {format} from 'date-fns';
 
-const AddExpense = () => {
+const AddExpense = ({navigation}) => {
   let cateList = [
     {
       id: 0,
@@ -36,6 +35,7 @@ const AddExpense = () => {
     },
   ];
 
+  const [isPress, setisPress] = React.useState(-1);
   const [entries, setEntries] = useState([]);
   const [date, setDate] = useState(new Date());
   const [title, setTitle] = useState('');
@@ -50,17 +50,29 @@ const AddExpense = () => {
   }, []);
 
   const addExpense = () => {
-    let newID = entries.length === 0 ? 1 : entries[entries.length - 1].id + 1;
-    let newEntry = {
-      id: newID,
-      type: category,
-      value: -parseFloat(amount),
-      date: format(date, 'dd/MM/yyy'),
-      payment: 'Cash',
-    };
-    entries.push(newEntry);
-    saveData(ENTRIES_KEY, entries);
-    Alert.alert('Success', 'Expense was added.', [{text: 'OK'}]);
+    if (title == '') {
+      Alert.alert('Error', 'Expense Title is a required field.', [{text: 'Again'}]);
+    }
+    else if (amount <= 0) {
+      Alert.alert('Error', 'Amount must be positive.', [{text: 'Again'}]);
+    }
+    else if (isPress == -1) {
+      Alert.alert('Error', 'Choose one Expense Category.', [{text: 'Again'}]);
+    }
+    else {
+      let newID = entries.length === 0 ? 1 : entries[entries.length - 1].id + 1;
+      let newEntry = {
+        id: newID,
+        type: category,
+        value: -parseFloat(amount),
+        date: format(date, 'dd/MM/yyy'),
+        payment: 'Cash',
+      };
+      navigation.navigate('Add');
+      entries.push(newEntry);
+      saveData(ENTRIES_KEY, entries);
+      Alert.alert('Success', 'Expense was added.', [{text: 'OK'}]);
+    }
   };
 
   const renderItem = ({item, index}) => (
@@ -86,14 +98,16 @@ const AddExpense = () => {
       )}
       {index != 0 && (
         <TouchableOpacity
-          onPress={() => setCategory(item.title)}
+          onPress={() => {
+            setisPress(item.title);
+            setCategory(item.title)}}
           style={{
             width: 130,
             padding: 15,
             marginHorizontal: 20,
             marginVertical: SIZES.radius,
             borderRadius: SIZES.radius,
-            backgroundColor: isOdd(index) ? COLORS.primary : COLORS.secondary,
+            backgroundColor: (isPress != item.title) ? COLORS.primary : COLORS.secondary,
             ...styles.shadow,
             alignItems: 'center',
             justifyContent: 'center',
@@ -102,7 +116,7 @@ const AddExpense = () => {
           <Text
             style={{
               ...FONTS.h3,
-              color: isOdd(index) ? COLORS.black : COLORS.white,
+              color: (isPress != item.title) ? COLORS.black : COLORS.white,
             }}>
             {item.title}
           </Text>

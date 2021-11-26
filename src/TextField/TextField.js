@@ -12,6 +12,7 @@ export default function TextField(props) {
           keyboardType={
             'keyboardType' in props ? props.keyboardType : 'default'
           }
+          editable={props.editable == 'false' ? false : true}
           value={props.value}
           placeholder={'placeholder' in props ? props.placeholder : ''}
           onChangeText={text => props.onChange(text)}

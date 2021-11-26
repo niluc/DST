@@ -47,7 +47,7 @@ export default function SmallList(props) {
         marginLeft: index == 0 ? SIZES.padding : 25,
         marginVertical: SIZES.radius,
         borderRadius: SIZES.radius,
-        backgroundColor: isOdd(index) ? COLORS.white : COLORS.primary,
+        backgroundColor: COLORS.primary,
         ...styles.shadow,
         alignItems: 'center',
       }}>
@@ -56,7 +56,7 @@ export default function SmallList(props) {
           padding: 10,
           borderRadius: 10,
           marginBottom: 5,
-          backgroundColor: isOdd(index) ? '#F0F1F5' : '#ABD8E8',
+          backgroundColor: '#ABD8E8',
           marginHorizontal: 'auto',
           width: 45,
         }}>
@@ -65,7 +65,7 @@ export default function SmallList(props) {
           style={{
             width: 25,
             height: 25,
-            tintColor: isOdd(index) ? COLORS.black : COLORS.white,
+            tintColor: COLORS.white,
           }}
         />
       </View>
@@ -73,7 +73,7 @@ export default function SmallList(props) {
       <Text
         style={{
           ...FONTS.h3,
-          color: isOdd(index) ? COLORS.black : COLORS.white,
+          color: COLORS.white,
         }}>
         {item.title}
       </Text>

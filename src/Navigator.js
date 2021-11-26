@@ -4,7 +4,7 @@ import {
   getFocusedRouteNameFromRoute,
 } from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, View, TouchableOpacity, Button} from 'react-native';
 import {COLORS, icons} from './constants';
 
@@ -27,7 +27,7 @@ import {
   ResetPassword,
 } from './screen';
 
-const isSignIn = 1;
+const isSignIn = 0;
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -54,7 +54,7 @@ const CustomTabBarButton = ({children, onPress}) => (
   </TouchableOpacity>
 );
 
-const Tabs = () => {
+export const Tabs = () => {
   return (
     <Tab.Navigator
       screenOptions={{

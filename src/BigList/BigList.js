@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, FlatList, Image} from 'react-native';
-
 import {icons, COLORS, SIZES, FONTS} from '../constants';
 
 export default function BigList(props) {
@@ -9,13 +8,13 @@ export default function BigList(props) {
   const renderItem = ({item, index}) => (
     <View
       style={{
-        width: 130,
+        width: 160,
         padding: 15,
         marginRight: 20,
-        marginLeft: index == 0 ? SIZES.padding : 25,
+        marginLeft: index == 0 ? SIZES.padding : 45,
         marginVertical: SIZES.radius,
         borderRadius: SIZES.radius,
-        backgroundColor: index % 2 == 0 ? COLORS.white : COLORS.primary,
+        backgroundColor: COLORS.white,
         ...styles.shadow,
       }}>
       <Image
@@ -24,14 +23,14 @@ export default function BigList(props) {
           width: 25,
           height: 25,
           marginBottom: 5,
-          tintColor: index % 2 == 0 ? COLORS.black : COLORS.white,
+          tintColor: COLORS.black,
         }}
       />
       {/* Title */}
       <Text
         style={{
           ...FONTS.h3,
-          color: index % 2 == 0 ? COLORS.black : COLORS.white,
+          color: COLORS.black,
         }}>
         {item.title}
       </Text>
@@ -43,19 +42,41 @@ export default function BigList(props) {
         }}>
         <Text
           style={{
-            color: index % 2 == 0 ? COLORS.black : COLORS.white,
-            ...FONTS.body3,
+            color: COLORS.black,
+            ...FONTS.body5,
             fontWeight: '700',
           }}>
           ${'\n'}
-          {item.value.toFixed(2)}
+          {
+            item.value.toFixed(0).toString().length >= 10 ? (item.value - item.value % 1e9) / 1e9 : (
+              item.value.toFixed(0).toString().length >= 7 ? (item.value - item.value % 1e6) / 1e6 : (
+                item.value.toFixed(0).toString().length >= 6 ? (item.value - item.value % 1e3) / 1e3 : (
+                  item.value.toFixed(0).toString().length <= 2 ? item.value.toFixed(2) : item.value.toFixed(5 - item.value.toFixed(0).toString().length)
+                ) 
+              )
+            )
+          }
+          {
+            item.value.toFixed(0).toString().length >= 10 ? 'B' : (
+              item.value.toFixed(0).toString().length >= 7 ? 'M' : (
+                item.value.toFixed(0).toString().length >= 6 ? 'K' : '' 
+              )
+            )
+          }
+          {
+            item.value.toFixed(0).toString().length >= 10 ? ((item.value % 1e9) / Math.pow(10,item.value.toFixed(0).toString().length-4)).toFixed(0) : (
+              item.value.toFixed(0).toString().length >= 7 ? ((item.value % 1e6) / Math.pow(10,item.value.toFixed(0).toString().length-4)).toFixed(0) : (
+                item.value.toFixed(0).toString().length >= 6 ? ((item.value % 1e3) / Math.pow(10,item.value.toFixed(0).toString().length-4)).toFixed(0) : '' 
+              )
+            )
+          }
         </Text>
       </View>
     </View>
   );
 
   return (
-    <View style={{height: 200}}>
+    <View style={{height: 250}}>
       {data.length > 0 && (
         <FlatList
           data={data}
